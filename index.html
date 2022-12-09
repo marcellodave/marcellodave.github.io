@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Playground | Mod Creator</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jszip.min.js"></script>
+    <script src="./js/fileSaver.js"></script>
+    <script src="./js/index.js" type="module" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"> 
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
+
+    <meta property="og:title" content="People Playground | Mod Creator">
+    <meta property="og:site_name" content="People Playground | Mod Creator">
+    <meta property="og:url" content="https://cozax.github.io/PPG-Mod-Creator/">
+    <meta property="og:description" content="PPG Mod Creator is a tool allowing the creation of very basic mods on the game People Playground. This site is dedicated to people who don't have the courage to learn how to make mods. This mod creator is very basic, and is not intended for the creation of mods for the steam workshop.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./img/icon.png">
+</head>
+<body>
+    <main>
+        <aside>
+            <ul>
+                <li><i data-page="create" class="zmdi zmdi-plus"></i></li>
+                <li><i data-page="settings" class="zmdi zmdi-settings"></i></li>
+                <li><i data-page="help" class="zmdi zmdi-help"></i></li>
+                <li><i data-page="helpers" class="zmdi zmdi-fire"></i></li>
+            </ul>
+        </aside>
+        <article>
+            <section id="start" class="active">Press <i class="zmdi zmdi-plus"></i> to add your first mod element</section>
+
+            <section id="create">
+                <h1>Created Elements <span id="numberElements">0/30</span></h1>
+                <span>The amount of items you can create is now limited as they were stored in your browser's localstorage.</span>
+                <span>It seems like the amount of data you can store in it has a quota, so I limited the number of items you can create so you can't exceed it.</span>
+                <br>
+
+                <div>
+                    <div id="createdElements"></div>
+                    <button data-page="createElement" id="mod_createElement">Create Element</button>
+                    <button id="mod_clearElements">Clear All Elements</button>
+                    <button id="mod_saveElements">Save Mod Elements</button>
+
+                    <input type="file" id="modElementsFile" accept=".ppgmc">
+                    <button id="mod_loadElements">Load Mod Elements</button>
+                </div>
+            </section>
+
+            <section id="createElement">
+                <h1>Create A New Element</h1>
+                <div><h2>Element Type</h2><select></select></div>
+
+                <div id="firearm">
+                    <h1>Firearm Creation</h1>
+                    <span>You can find all People Playground original textures <a target="_blank" href="https://github.com/UniDuki/ppg-assets/tree/master/Objects">on this link</a>. (You can then select the weapon you want and get its sprite)</span>
+                    <ul>
+                        <li>
+                            <span>Firearm Type</span>
+                            <select class="type">
+                                <option value="Pistol">Pistol</option>
+                                <option value="Assault Rifle">Assault Rifle</option>
+                                <option value="Sniper Rifle">Sniper Rifle</option>
+                                <option value="Grenade Launcher">Grenade Launcher</option>
+                                <option value="Blaster">Blaster</option>
+                                <option value="Machine Blaster">Machine Blaster</option>
+                                <option value="Blaster Rifle">Blaster Rifle</option>
+                                <option value="Stunner">Stunner</option>
+                                <option value="Flamethrower">Flamethrower</option>
+                                <option value="Shotgun">Shotgun</option>
+                                <option value="Rifle">Rifle</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Firearm Name</span>
+                            <input type="text" maxlength="30" class="name required">
+                        </li>
+                        <li>
+                            <span>Firearm Description</span>
+                            <input type="text" maxlength="30" class="description required">
+                        </li>
+                        <li>
+                            <span>Firearm Thumbnail</span>
+                            <input type="file" class="required" id="firearm_thumbnail_file" accept=".png">
+                            <button id="firearm_thumbnail">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Firearm Sprite (Recommended Size: Under 100x100 px)</span>
+                            <input type="file" class="required" id="firearm_sprite_file" accept=".png">
+                            <button id="firearm_sprite">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Firearm Shotsound</span>
+                            <input type="file" class="required" id="firearm_shotsound_file" accept=".wav, .mp3">
+                            <button id="firearm_shotsound">Select .wav/.mp3 file</button>
+                        </li>
+                        <li>
+                            <span>Firearm Damage</span>
+                            <input type="number" class="damage required" min="0" step="0.1" value="0.8">
+                        </li>
+                    </ul>
+                    <span class="warning"></span>
+                    <button data-item="firearm" class="save">Save Firearm</button>
+                </div>
+
+                <div id="explosive">
+                    <h1>Explosive Creator</h1>
+                    <ul>
+                        <li>
+                            <span>Explosive Type</span>
+                            <select class="type">
+                                <option value="Dynamite">Dynamite</option>
+                                <option value="Red Barrel">Red Barrel</option>
+                                <option value="General Purpose Bomb">Basic Bomb</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Explosive Name</span>
+                            <input type="text" maxlength="30" class="name required">
+                        </li>
+                        <li>
+                            <span>Explosive Description</span>
+                            <input type="text" maxlength="30" class="description required">
+                        </li>
+                        <li>
+                            <span>Explosive Thumbnail</span>
+                            <input type="file" class="required" id="explosive_thumbnail_file" accept=".png">
+                            <button id="explosive_thumbnail">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Explosive Sprite (Recommended Size: Under 100x100 px)</span>
+                            <input type="file" class="required" id="explosive_sprite_file" accept=".png">
+                            <button id="explosive_sprite">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Explosive Range</span>
+                            <input type="number" class="range required" min="0" step="1" value="30">
+                        </li>
+                        <li>
+                            <span>Explosive Delay (In Seconds)</span>
+                            <input type="number" class="delay required" min="0" step="1" value="0">
+                        </li>
+                    </ul>
+                    <span class="warning"></span>
+                    <button data-item="explosive" class="save">Save Explosive</button>
+                </div>
+
+                <div id="entity">
+                    <h1>Entity Creator</h1>
+                    <span>You can get the human textures <a target="_blank" href="https://github.com/mestiez/ppg-snippets/tree/master/Human%20textures">on this link</a></span>
+                    <span>You can get the android textures <a target="_blank" href="https://github.com/mestiez/ppg-snippets/tree/master/Android%20textures">on this link</a></span>
+                    <span>You can get the gorse textures <a target="_blank" href="https://github.com/mestiez/ppg-snippets/tree/master/Gorse%20textures">on this link</a></span>
+                    <ul>
+                        <li>
+                            <span>Entity Type</span>
+                            <select class="type">
+                                <option value="Human">Human</option>
+                                <option value="Android">Android</option>
+                                <option value="Gorse">Gorse</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Entity Name</span>
+                            <input type="text" maxlength="30" class="name required">
+                        </li>
+                        <li>
+                            <span>Entity Description</span>
+                            <input type="text" maxlength="30" class="description required">
+                        </li>
+                        <li>
+                            <span>Entity Thumbnail</span>
+                            <input type="file" class="required" id="entity_thumbnail_file" accept=".png">
+                            <button id="entity_thumbnail">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Entity Skin</span>
+                            <input type="file" class="required" id="entity_skin_file" accept=".png">
+                            <button id="entity_skin">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Entity Flesh</span>
+                            <input type="file" class="required" id="entity_flesh_file" accept=".png">
+                            <button id="entity_flesh">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Entity Bone</span>
+                            <input type="file" class="required" id="entity_bone_file" accept=".png">
+                            <button id="entity_bone">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Entity health (Beware, shooting in important parts of the body as the head will still kill it, no matter how high its health is set.)</span>
+                            <input type="number" value="100" class="health required">
+                        </li>
+                        <li>
+                            <span>Entity regeneration speed</span>
+                            <input type="number" value="0" class="regenSpeed required">
+                        </li>
+                    </ul>
+                    <span class="warning"></span>
+                    <button data-item="entity" class="save">Save Entity</button>
+                </div>
+
+                <div id="object">
+                    <h1>Object Creator</h1>
+                    <input type="hidden" class="type" value="Object">
+                    <ul>
+                        <li>
+                            <span>Object Name</span>
+                            <input type="text" maxlength="30" class="name required">
+                        </li>
+                        <li>
+                            <span>Object Description</span>
+                            <input type="text" maxlength="30" class="description required">
+                        </li>
+                        <li>
+                            <span>Object Thumbnail</span>
+                            <input type="file" class="required" id="object_thumbnail_file" accept=".png">
+                            <button id="object_thumbnail">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Object Sprite (Recommended Size: Under 100x100 px)</span>
+                            <input type="file" class="required" id="object_sprite_file" accept=".png">
+                            <button id="object_sprite">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Object Weight (Will make your object heavier or lighter)</span>
+                            <select class="weight">
+                                <option value="5f">5f</option>
+                                <option value="100f">100f</option>
+                                <option value="500f">500f</option>
+                                <option value="1000f">1000f</option>
+                                <option value="10000f">10000f</option>
+                                <option value="99999f">99999f</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Object Material</span>
+                            <select class="material">
+                                <option value="Plastic">Plastic</option>
+                                <option value="AndroidArmour">AndroidArmour</option>
+                                <option value="Bowling ball">Bowling ball</option>
+                                <option value="Bowling pin">Bowling pin</option>
+                                <option value="Brick">Brick</option>
+                                <option value="Bulletproof">Bulletproof</option>
+                                <option value="Ceramic">Ceramic</option>
+                                <option value="Concrete">Concrete</option>
+                                <option value="Flammable metal">Flammable metal</option>
+                                <option value="Glass">Glass</option>
+                                <option value="Ice">Ice</option>
+                                <option value="Incredible">Incredible</option>
+                                <option value="Insulator">Insulator</option>
+                                <option value="Metal">Metal</option>
+                                <option value="Rubber">Rubber</option>
+                                <option value="Snow">Snow</option>
+                                <option value="Soap">Soap</option>
+                                <option value="Soft">Soft</option>
+                                <option value="Tempered Glass">Tempered Glass</option>
+                                <option value="Wood">Wood</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Object Spawn Sound (If you ever put one, this sound will be played when spawning the object!)</span>
+                            <input type="file" id="object_spawn_file" accept=".wav, .mp3">
+                            <button id="object_spawn">Select .wav/.mp3 file</button>
+                        </li>
+                        <li>
+                            <span>Is the object weightless?</span>
+                            <select class="weightless">
+                                <option value="false">False</option>
+                                <option value="true">True</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <span class="warning"></span>
+                    <button data-item="object" class="save">Save Object</button>
+                </div>
+
+                <div id="melee">
+                    <h1>Melee Weapon Creator</h1>
+                    <span>You can find all People Playground original textures <a target="_blank" href="https://github.com/UniDuki/ppg-assets/tree/master/Objects">on this link</a>. (You can then select the melee weapon you want and get its sprite)</span>
+                    <ul>
+                        <li>
+                            <span>Melee Type</span>
+                            <select class="type">
+                                <option value="Baseball Bat">Baseball Bat</option>
+                                <option value="Knife">Knife</option>
+                                <option value="Sword">Sword</option>
+                                <option value="Hammer">Hammer</option>
+                                <option value="Axe">Axe</option>
+                                <option value="Rod">Rod</option>
+                                <option value="Spear">Spear</option>
+                            </select>
+                        </li>
+                        <li>
+                            <span>Melee Name</span>
+                            <input type="text" maxlength="30" class="name required">
+                        </li>
+                        <li>
+                            <span>Melee Description</span>
+                            <input type="text" maxlength="30" class="description required">
+                        </li>
+                        <li>
+                            <span>Melee Thumbnail</span>
+                            <input type="file" class="required" id="melee_thumbnail_file" accept=".png">
+                            <button id="melee_thumbnail">Select .png file</button>
+                        </li>
+                        <li>
+                            <span>Melee Sprite (Recommended Size: Under 100x100 px)</span>
+                            <input type="file" class="required" id="melee_sprite_file" accept=".png">
+                            <button id="melee_sprite">Select .png file</button>
+                        </li>
+                    </ul>
+                    <span class="warning"></span>
+                    <button data-item="melee" class="save">Save Melee</button>
+                </div>
+            </section>
+
+            <section id="settings">
+                <h1>Mod Settings</h1>
+                <div>
+                    <div class="left">
+                        <input type="text" maxlength="30" id="mod_name" placeholder="Mod Name" autocomplete="off">
+                        <input type="text" maxlength="30" id="mod_author" placeholder="Author Name" autocomplete="off">
+                        <input type="text" maxlength="30" id="mod_description" placeholder="Mod Description" autocomplete="off">
+                        <span id="settings_warning"></span>
+
+                        <div style="margin-top: 1pc;">
+                            <input type="checkbox" id="createCategory" name="cat">
+                            <label for="cat">Makes a custom catalog icon for your mod.</label>
+                        </div>
+
+                        <button id="mod_download">Download your mod!</button>
+                    </div>
+                    <div class="right">
+                        <img src="./img/noModThumbnail.png" id="preview_mod_thumb">
+                        <input type="file" id="mod_thumb_file" accept=".png, .jpeg, .jpg">
+                        <span style="margin: .5pc 0;">Your thumbnail will be resized to 200x200 pixels</span>
+                        <button id="mod_thumbnail">Select .png/.jpeg/.jpg</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="help">
+                <h1>How to use "People Playground Mod Creator"</h1>
+                <ul>
+                    <li>People Playground Mod Creator is pretty simple to use. First of all, you can go create your first mod element by clicking on the + icon, in the sidebar. Then just select the type of element you wanna create and fill the required form. There you go, you just created your first mod element. <b>Be aware that all the items you create are stored on the webpage. If your computer isn't that powerful, avoid creating a lot of mod elements, or your pc may suffer from lags.</b></li>
+                    <li>To download the zip file containing your mod content, just click on the <i class="zmdi zmdi-settings"></i> icon, name your mod and download it. That's all. If you want to, you can even add your own mod thumbnail and create your own mod category.</li>
+                    <li>Once the .zip is downloaded, go to your local game files, and export the .zip to the mod folder. (Be careful not to export it to the root of the mod folder). Well done, now you can use your mod.</li>
+                </ul>
+
+                <h1>How can I report a bug?</h1>
+                <span>To report a bug, simply click on <a target="_blank" href="https://github.com/Cheeteau/PPG-Mod-Creator/issues/new?assignees=&labels=bug&template=bug_report.md&title=">this link</a> to create an issue on the github repository.</span>
+
+                <h1>How can I support?</h1>
+                <span>To support me and my work, you can:</span>
+                <ul>
+                    <li>Buy me a coffee to show me you actually like my work and help me buying some random stuff by clicking on <a target="_blank" href="https://ko-fi.com/cheeteau">this link</a>!</li>
+                    <li>Contributing on the github repo by pushing updates and cleaning my code on <a target="_blank" href="https://github.com/Cheeteau/PPG-Mod-Creator">this link</a>!</li>
+                </ul>
+            </section>
+
+            <section id="helpers">
+                <div class="all">
+                    <h1>Thanks to everyone for helping!</h1>
+                    <h3><b>I decided to stop suggestions. Due to a lack of time and of motivation, I can't allow myself to work a lot on PPG-Mod-Creator anymore. I'm so sorry about that, and all the person that has suggested an idea will be added on this page. I will still push some updates times to times.</b></h3><br>
+                    <span>If you wanna help me, <a target="_blank" href="https://ko-fi.com/cheeteau">buy me a coffee</a>, or even come and contribute to the code!</span><br>
+                    <span>Depending on how you support me, the color of your username will change. By giving a <b class="suggestion">suggestion</b>, your username will be green. If you're a <b class="tipper">tipper</b>, your name will be gold and finally if you <b class="contributer">contribute</b> on the repo, your name will be purple. In anyway, thank you already for using the website!</span>
+
+                    <ul>
+                        <li><b class="suggestion">wyatt3m7</b> | Bug catcher, modifying entities health.</li>
+                        <li><b class="suggestion">epicGamingA</b> | Added blasters.</li>
+                        <li><b class="suggestion">MellonMunch</b> | Added shotgun, couldn't add the nukes but I might take a look about them. Instead I added a General Purpose Bomb.</li>
+                        <li><b class="suggestion">Muurkz</b> | High quality textures for humans (Scaling according to the width of the entity's skin image).</li>
+                        <li><b class="suggestion">JuusoKamut</b> | Added links to get sprites, also added the Gorse in the entity making form.</li>
+                        <li><b class="suggestion">Clockworker</b> | Bug catcher</li>
+                        <li><b class="suggestion">Qbaczi</b> | Ability to save and load mod elements</li>
+
+                        <hr>
+                        <li><b>Here is the name of all the people that suggested something</b></li>
+                        <li><b class="suggestion">TheThomasFan</b></li>
+                        <li><b class="suggestion">elmordecaixdxd</b></li>
+                        <li><b class="suggestion">ThatUnavalableGuy</b></li>
+                        <li><b class="suggestion">A Weird Guy</b></li>
+                        <li><b class="suggestion">DaunIDebil</b></li>
+                        <li><b class="suggestion">no</b></li>
+                        <li><b class="suggestion">i forgot</b></li>
+                        <li><b class="suggestion">Radioisotope Thermoelectric Generator (Okudumsu)</b></li>
+                        <li><b class="suggestion">Cesar Playground</b></li>
+                        <li><b class="suggestion">LukeMan</b></li>
+                        <li><b class="suggestion">NormalpPgPlaYer324</b></li>
+                        <li><b class="suggestion">Guensty</b></li>
+                        <li><b class="suggestion">Lanykore</b></li>
+                        <li><b class="suggestion">Lance</b></li>
+                    </ul>
+                </div>
+            </section>
+        </article>
+    </main>
+</body>
+</html>
