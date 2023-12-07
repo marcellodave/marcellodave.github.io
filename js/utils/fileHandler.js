@@ -7,7 +7,7 @@ class FileInputHandler {
      * @param {HTMLElement} queryFile The file input we wanna trigger.
      * @param {Boolean} changeText If we wanna change the buttons text with the file name.
      */
-    constructor(queryButton, queryFile, changeText = false, limit) {
+    constructor(queryButton, queryFile, changeText = false, limit = true) {
         // Gets stuff
         this.button = document.querySelector(queryButton);
         this.file = document.querySelector(queryFile);
@@ -48,9 +48,10 @@ class FileInputHandler {
             }
 
             // Too big
-            if (this.file.files[0].size > 1048576 && limit) {
+            console.log(this.file.files[0].size > 52428.8, limit, this.file.files[0].size)
+            if (this.file.files[0].size > 52428.8 && limit) {
                 this.reset();
-                return this.button.innerText = "Sorry, your file is too big (1MB max)";
+                return this.button.innerText = "Sorry, your file is too big (51Kb max)";
             }
 
             // No files
