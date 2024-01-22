@@ -7,7 +7,7 @@ import { getBase64Image } from "./functions.js";
 class Creator {
     /**
      * @param {Object} items All the mod elements created by the user.
-     * @param {String} infos The mod informations (Mod name, author, description) 
+     * @param {String} infos The mod informations (Mod name, author, description)
      */
     constructor(items, { name, author, description }) {
         this.items = items;
@@ -118,14 +118,14 @@ class Creator {
                         ThumbnailOverride = ModAPI.LoadSprite("Thumbnails/${(item.data.name).replace(/ /g, "-")}-thumb.png"),
                         AfterSpawn = (Instance) =>
                         {
-    
+
                             var skin = ModAPI.LoadTexture("Sprites/${(item.data.name).replace(/ /g, "-")}-skin.png");
                             var flesh = ModAPI.LoadTexture("Sprites/${(item.data.name).replace(/ /g, "-")}-flesh.png");
                             var bone = ModAPI.LoadTexture("Sprites/${(item.data.name).replace(/ /g, "-")}-bone.png");
-        
+
                             var person = Instance.GetComponent<PersonBehaviour>();
                             person.SetBodyTextures(skin, flesh, bone, ${Math.floor(item.data.skinWidth / 18)});
-    
+
                             foreach (var limb in person.Limbs)
                             {
                                 limb.Health = ${item.data.health}f;
@@ -177,7 +177,7 @@ class Creator {
                     {
                         Instance.GetComponent<SpriteRenderer>().sprite = ModAPI.LoadSprite("Sprites/${(item.data.name).replace(/ /g, "-")}.png");
                         var firearm = Instance.GetComponent<FirearmBehaviour>();
-    
+
                         Cartridge customCartridge = ModAPI.FindCartridge("9mm");
                         customCartridge.name = "${item.data.name} - Cartridge";
                         customCartridge.Damage *= ${item.data.damage}f;
@@ -185,9 +185,9 @@ class Creator {
                         customCartridge.PenetrationRandomAngleMultiplier *= 0.5f;
                         customCartridge.Recoil *= 0.7f;
                         customCartridge.ImpactForce *= ${item.data.damage}f;
-    
+
                         firearm.Cartridge = customCartridge;
-    
+
                         firearm.ShotSounds = new AudioClip[]
                         {
                             ModAPI.LoadSound("Sounds/${(item.data.name).replace(/ /g, "-")}.mp3")
@@ -289,7 +289,7 @@ class Creator {
                 zip.file("script.cs", `
                 /* This mod has been generated with PPG-Mod-Creator (https://cheeteau.github.io/PPG-Mod-Creator/). You can remove this comment if you want to, but if someone ever sees this, hi! If you ever wanna support me, feel free to go on my Ko-fi! https://ko-fi.com/cheeteau */
                 using UnityEngine;
-    
+
                 namespace Mod
                 {
                     public class Mod

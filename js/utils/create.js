@@ -48,8 +48,8 @@ const files = {
  * This function resets all the file inputs.
  * @param {Object} object The json object containing all the inputs (const files)
  */
-function resetFiles(object){
-    for (const file of Object.keys(object)){ object[file].reset(); }
+function resetFiles(object) {
+    for (const file of Object.keys(object)) { object[file].reset(); }
 }
 
 
@@ -58,11 +58,11 @@ function resetFiles(object){
  * @param {String} divID The div's ID we want to check
  * @returns {Boolean/String} True if everything is filled, a string containing an error if not. (I know I could do simpler but I don't know)
  */
-function checkInputs(divID){
+function checkInputs(divID) {
     const inputs = document.querySelectorAll(`${divID} input.required`);
-    for (const input of inputs){ 
-        if(input.value.replace(/ /g, "") == "") return "Please fill all of the inputs."; 
-        if(input.type == "text" && /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(input.value)) return "Please do not use special characters.";
+    for (const input of inputs) {
+        if (input.value.replace(/ /g, "") == "") return "Please fill all of the inputs.";
+        if (input.type == "text" && /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(input.value)) return "Please do not use special characters.";
     }
     return true;
 }
@@ -73,7 +73,7 @@ function checkInputs(divID){
  * No need to create all of these by hand.
  */
 const availableElements = ["Click to select a type", "Firearm", "Explosive", "Entity", "Object", "Melee"];
-for (const option of availableElements){
+for (const option of availableElements) {
     const selectOption = document.createElement("option");
     selectOption.value = option; selectOption.innerText = option;
     document.querySelector("#createElement select:first-of-type").appendChild(selectOption);
@@ -81,7 +81,7 @@ for (const option of availableElements){
 
 
 /**
- * This code will handle the change of elements. 
+ * This code will handle the change of elements.
  * Example: If the user switchs from Firearm to Explosive, the page content will change.
  */
 document.querySelector("#createElement select:first-of-type").addEventListener("change", () => {
@@ -89,8 +89,8 @@ document.querySelector("#createElement select:first-of-type").addEventListener("
     const elementPage = document.querySelector(`#${newValue.toLowerCase()}`);
 
     const actives = document.querySelectorAll("#createElement .active");
-    for (const active of actives){active.classList.remove("active");}
-    if(!elementPage) return null;
+    for (const active of actives) { active.classList.remove("active"); }
+    if (!elementPage) return null;
 
     elementPage.classList.add("active");
 });
@@ -109,7 +109,7 @@ const categories = {
     melee: "Melee"
 } // Will help to find the correct type of element from the div id.
 
-for (const button of itemSaveButtons){
+for (const button of itemSaveButtons) {
     // An item is getting saved:
     button.addEventListener("click", async () => {
         const itemToSave = button.dataset.item;
@@ -117,17 +117,17 @@ for (const button of itemSaveButtons){
         let newItem;
 
         // Checks all the inputs to see if they are actually filled:
-        if(typeof checkInputs(`#${itemToSave}`) != "boolean") return document.querySelector(`#${itemToSave} .warning`).innerHTML = checkInputs(`#${itemToSave}`);
-        
+        if (typeof checkInputs(`#${itemToSave}`) != "boolean") return document.querySelector(`#${itemToSave} .warning`).innerHTML = checkInputs(`#${itemToSave}`);
+
         // Forced to do a if/else statement, the content saved in the mod element aren't the same depending on if it's an entity or not.
-        if(button.dataset.item != "entity"){
+        if (button.dataset.item != "entity") {
             newItem = {
                 type: document.querySelector(`#${itemToSave} .type`).value,
                 audio: filesInput.sound_file != undefined && filesInput.sound_file.file.files[0] != undefined ? await filesInput.sound_file.getBase64File() : null,
                 sprite: await filesInput.sprite_file.getBase64File(),
                 thumbnail: await filesInput.thumbnail_file.getBase64File()
             }
-        }else{
+        } else {
             newItem = {
                 type: document.querySelector(`#${itemToSave} .type`).value,
                 audio: null,
@@ -142,7 +142,7 @@ for (const button of itemSaveButtons){
         // Retrieves all the inputs/select that are not file, and save their values in the "newItem" JSON Object
         // Like that, if I ever add some fields on a page, I won't have to deal with puting them in the script as well since it's automatic.
         const elementsNotFile = document.querySelectorAll(`#${itemToSave} *:not([type=file]):not(span):not(button):not(option)`);
-        for (const element of elementsNotFile){
+        for (const element of elementsNotFile) {
             const elementClass = element.classList[0];
 
             newItem[elementClass] = element.value;
@@ -150,7 +150,7 @@ for (const button of itemSaveButtons){
 
         // Prevents the user from creating two items with the same name
         const avoidSameNames = _ItemManager.items.filter(item => item.data.name == newItem.name);
-        if(avoidSameNames.length > 0) return alert(`The name "${newItem.name}" is already used by another of your mod elements. Please use a different name.`);
+        if (avoidSameNames.length > 0) return alert(`The name "${newItem.name}" is already used by another of your mod elements. Please use a different name.`);
 
         // Saves the item with the Item Manager
         _ItemManager.save({
