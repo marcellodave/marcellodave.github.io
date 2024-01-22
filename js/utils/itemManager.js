@@ -8,7 +8,7 @@ class ItemManager {
     constructor(elementsList) {
         this.items = localStorage.getItem("items") != undefined ? JSON.parse(localStorage.getItem("items")) : [];
         this.elementsList = elementsList;
-        this.limit = 30;
+        this.limit = 40;
     }
 
     /**
